@@ -75,7 +75,7 @@ MIT
 ## 🚀 Live Demo
 
 After deployment, your arcade will be live at:  
-`https://your-site.netlify.app/`
+`https://mr-root-game-paradise.netlify.app//`
 
 ---
 
