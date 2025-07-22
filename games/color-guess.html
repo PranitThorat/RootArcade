@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🌈 Color Mind Reader - Mr.Root's Game Paradise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/animations.css">
+    <style>
+        body { background: #231942; color: #fff; }
+        .game-container { max-width: 600px; margin: 2rem auto; padding: 2rem; background: #2a2546; border-radius: 14px; }
+        #colorDisplay { font-size: 2.5rem; margin-bottom: 1.5rem; display: block; font-weight: bold; letter-spacing: 2px; }
+        .squareRow { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;}
+        .square {
+            width: 100px;
+            height: 100px;
+            background: #888;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 0 15px #12121299;
+            transition: all 0.3s;
+        }
+        .square.selected { border: 4px solid #f77f00; box-shadow: 0 0 30px #f77f00a8; }
+        .score { margin-top: 1rem; font-size: 1.2rem; }
+        .diff-btn { padding: 0.4rem 1rem; background: #3a3370; color: #fff; border: none; margin: 0 4px; border-radius: 8px; cursor: pointer;}
+        .diff-btn.selected { background: #f85757; }
+    </style>
+</head>
+<body>
+    <a href="../index.html" style="color:#fff; text-decoration:none; margin:18px; display:inline-block;">← Back to Games</a>
+    <div class="game-container">
+        <h1>🌈 Color Mind Reader<br><small>Guess the color by RGB!</small></h1>
+        <div>
+            <span id="colorDisplay">rgb(?, ?, ?)</span>
+        </div>
+        <div class="score">
+            Score: <span id="score">0</span>
+        </div>
+        <div style="margin:1rem 0;">
+            <button class="diff-btn selected" id="easyBtn">Easy</button>
+            <button class="diff-btn" id="hardBtn">Hard</button>
+        </div>
+        <div class="squareRow" id="squareRow"></div>
+        <div id="message" style="margin-top:2rem; font-weight:bold;"></div>
+        <button onclick="setup()" style="margin-top:2.5rem; background:#6372b4; color:#fff; border:none; padding:0.7rem 2rem; border-radius:10px; cursor:pointer;">New Game</button>
+    </div>
+
+<script src="../scripts/utils.js"></script>
+<script>
+let numSquares = 3, 
+    colors = [],
+    pickedColor = "",
+    score = 0;
+
+
+const colorDisplay = document.getElementById("colorDisplay");
+const squareRow = document.getElementById("squareRow");
+const scoreSpan = document.getElementById("score");
+const message = document.getElementById("message");
+const easyBtn = document.getElementById("easyBtn");
+const hardBtn = document.getElementById("hardBtn");
+
+// Event listeners
+easyBtn.onclick = function() {
+    easyBtn.classList.add("selected");
+    hardBtn.classList.remove("selected");
+    numSquares = 3;
+    setup();
+}
+hardBtn.onclick = function() {
+    hardBtn.classList.add("selected");
+    easyBtn.classList.remove("selected");
+    numSquares = 6;
+    setup();
+}
+
+function randomColor() {
+    const r = Math.floor(Math.random() * 256),
+          g = Math.floor(Math.random() * 256),
+          b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+function generateColors(n) {
+    let arr = [];
+    for(let i=0; i<n; i++) arr.push(randomColor());
+    return arr;
+}
+
+function setup() {
+    colors = generateColors(numSquares);
+    pickedColor = colors[Math.floor(Math.random() * colors.length)];
+    colorDisplay.textContent = pickedColor.toUpperCase();
+
+    
+    squareRow.innerHTML = "";
+    colors.forEach((color, idx) => {
+        let div = document.createElement('div');
+        div.className = 'square';
+        div.style.background = color;
+        div.onclick = function() {
+            document.querySelectorAll('.square').forEach(sq => sq.classList.remove('selected'));
+            div.classList.add('selected');
+            if(color === pickedColor) {
+                message.textContent = "Correct! 🎉";
+                score += 1;
+                scoreSpan.textContent = score;
+                
+                document.querySelectorAll('.square').forEach(sq => sq.style.background = pickedColor);
+            } else {
+                message.textContent = "Try Again!";
+                div.style.opacity = "0.35";
+                score = Math.max(score - 1, 0);
+                scoreSpan.textContent = score;
+            }
+        }
+        squareRow.appendChild(div);
+    });
+    message.textContent = "";
+}
+setup();
+</script>
+</body>
+</html>

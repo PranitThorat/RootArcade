@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Memory Madness - Mr.Root's Game Paradise</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .game-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+            text-align: center;
+        }
+
+        .game-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
+            margin-bottom: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 100px;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
+        }
+
+        .memory-card.flipped {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(255, 0, 110, 0.2));
+            border-color: var(--neon-blue);
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched {
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.3), rgba(0, 245, 255, 0.3));
+            border-color: var(--neon-green);
+            animation: matched-glow 1s ease-out;
+        }
+
+        @keyframes matched-glow {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 30px rgba(57, 255, 20, 1);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+            }
+        }
+
+        .memory-card.wrong {
+            background: linear-gradient(135deg, rgba(255, 0, 110, 0.4), rgba(255, 0, 0, 0.4));
+            border-color: var(--neon-pink);
+            animation: wrong-shake 0.5s ease-in-out;
+        }
+
+        @keyframes wrong-shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .card-content {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .memory-card.flipped .card-content,
+        .memory-card.matched .card-content {
+            opacity: 1;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            min-width: 120px;
+            flex: 1;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--neon-blue);
+        }
+
+        .game-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 24px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: var(--card-bg);
+            border: 2px solid var(--neon-blue);
+            border-radius: 50px;
+            padding: 12px 24px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
+        }
+
+        .difficulty-selector {
+            margin: 2rem 0;
+        }
+
+        .difficulty-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--neon-blue);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-btn.active {
+            background: var(--neon-blue);
+            color: black;
+            box-shadow: 0 0 15px rgba(0, 245, 255, 0.8);
+        }
+
+        .victory-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid var(--neon-green);
+            color: white;
+            text-align: center;
+            display: none;
+            z-index: 100;
+        }
+
+        .victory-message h2 {
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .game-board {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                padding: 15px;
+            }
+            
+            .memory-card {
+                font-size: 2rem;
+                min-height: 80px;
+            }
+            
+            .back-btn {
+                position: static;
+                margin: 0 auto 2rem;
+                display: block;
+                width: fit-content;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-board {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .memory-card {
+                font-size: 1.8rem;
+                min-height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    
+    <a href="../index.html" class="back-btn">🏠 Back to Mr.Root's Games</a>
+    
+    <div class="game-container">
+        <h1 class="game-title">🧠 Memory Madness</h1>
+        
+        <div class="game-info">
+            <div class="info-item">
+                <div class="info-label">Moves</div>
+                <div class="info-value" id="moves">0</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Matches</div>
+                <div class="info-value" id="matches">0</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Time</div>
+                <div class="info-value" id="time">00:00</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Best Time</div>
+                <div class="info-value" id="bestTime">--:--</div>
+            </div>
+        </div>
+
+        <div class="difficulty-selector">
+            <button class="difficulty-btn active" data-level="easy">Easy (3x4)</button>
+            <button class="difficulty-btn" data-level="medium">Medium (4x4)</button>
+            <button class="difficulty-btn" data-level="hard">Hard (4x6)</button>
+        </div>
+        
+        <div class="game-board" id="gameBoard">
+            
+        </div>
+        
+        <div class="game-controls">
+            <button class="control-btn" id="newGameBtn">🎮 New Game</button>
+            <button class="control-btn" id="shuffleBtn">🔀 Shuffle</button>
+            <button class="control-btn" id="hintBtn">💡 Hint</button>
+            <button class="control-btn" id="soundToggleBtn">🔊 Toggle Sound</button>
+        </div>
+        
+        <p style="margin-top: 2rem; opacity: 0.8;">Find all matching pairs to win!</p>
+    </div>
+
+    <div class="victory-message" id="victoryMessage">
+        <h2>🎉 Congratulations!</h2>
+        <p id="victoryStats">You won in 0 moves and 00:00!</p>
+        <button class="control-btn" onclick="memoryGame.newGame()">Play Again</button>
+    </div>
+
+    <script src="../scripts/utils.js"></script>
+    <script src="../scripts/particle-system.js"></script>
+    <script src="../scripts/games/memory-game.js"></script>
+    
+    <script>
+        
+        const canvas = document.getElementById('particle-canvas');
+        if (canvas) {
+            const particleSystem = new ParticleSystem(canvas);
+            particleSystem.start();
+        }
+    </script>
+</body>
+</html>

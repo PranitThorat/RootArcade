@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Lightning Reflexes - Mr.Root's Game Paradise</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .game-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.3);
+            text-align: center;
+        }
+
+        .reaction-area {
+            width: 500px;
+            height: 300px;
+            max-width: 90vw;
+            max-height: 300px;
+            margin: 2rem auto;
+            border: 3px solid var(--neon-green);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reaction-area.waiting {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.3), rgba(150, 0, 0, 0.3));
+            color: white;
+        }
+
+        .reaction-area.ready {
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.5), rgba(0, 200, 0, 0.5));
+            color: black;
+            animation: pulse-ready 0.5s ease-in-out infinite;
+        }
+
+        .reaction-area.too-early {
+            background: linear-gradient(135deg, rgba(255, 100, 100, 0.8), rgba(255, 0, 0, 0.8));
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes pulse-ready {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(57, 255, 20, 0.6); }
+            50% { transform: scale(1.02); box-shadow: 0 0 50px rgba(57, 255, 20, 0.9); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid transparent;
+        }
+
+        .stat-item.best {
+            border-color: var(--neon-green);
+            background: rgba(57, 255, 20, 0.1);
+        }
+
+        .attempts-list {
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .attempt-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .attempt-item:last-child {
+            border-bottom: none;
+        }
+
+        .attempt-time {
+            font-weight: bold;
+            color: var(--neon-green);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    
+    <a href="../index.html" class="back-btn">🏠 Back to Mr.Root's Games</a>
+    
+    <div class="game-container">
+        <h1 class="game-title">⚡ Lightning Reflexes</h1>
+        
+        <div class="stats-grid">
+            <div class="stat-item best">
+                <div class="info-label">Best Time</div>
+                <div class="info-value" id="bestTime">---</div>
+            </div>
+            <div class="stat-item">
+                <div class="info-label">Average</div>
+                <div class="info-value" id="avgTime">---</div>
+            </div>
+            <div class="stat-item">
+                <div class="info-label">Attempts</div>
+                <div class="info-value" id="attempts">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="info-label">Success Rate</div>
+                <div class="info-value" id="successRate">0%</div>
+            </div>
+        </div>
+        
+        <div class="reaction-area waiting" id="reactionArea">
+            <span id="reactionText">Click to Start!</span>
+        </div>
+        
+        <div class="attempts-list" id="attemptsList">
+            <div style="text-align: center; opacity: 0.7;">Your reaction times will appear here...</div>
+        </div>
+        
+        <div class="game-controls">
+            <button class="control-btn" id="resetBtn">🔄 Reset Stats</button>
+            <button class="control-btn" id="practiceBtn">🎯 Practice Mode</button>
+            <button class="control-btn" id="challengeBtn">🏆 Challenge Mode</button>
+            <button class="control-btn" id="soundToggleBtn">🔊 Toggle Sound</button>
+        </div>
+        
+        <p style="margin-top: 2rem; opacity: 0.8;">
+            Wait for GREEN, then click as fast as you can!<br>
+            Don't click on red or you'll get penalized.
+        </p>
+    </div>
+
+    <script src="../scripts/utils.js"></script>
+    <script src="../scripts/particle-system.js"></script>
+    <script src="../scripts/games/reaction-test.js"></script>
+    
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        if (canvas) {
+            const particleSystem = new ParticleSystem(canvas);
+            particleSystem.start();
+        }
+    </script>
+</body>
+</html>

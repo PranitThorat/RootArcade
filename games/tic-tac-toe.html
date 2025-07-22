@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Epic Tic-Tac-Toe - Mr.Root's Game Paradise</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .game-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+            text-align: center;
+        }
+
+        .game-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
+            margin-bottom: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+        }
+
+        .cell {
+            width: 120px;
+            height: 120px;
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cell:hover {
+            transform: scale(1.05);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
+        }
+
+        .cell.x {
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px rgba(255, 0, 110, 0.8);
+            animation: bounce-in 0.5s ease-out;
+        }
+
+        .cell.o {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.8);
+            animation: rotate-in 0.5s ease-out;
+        }
+
+        .cell.winning {
+            animation: winning-cell 1s ease-in-out infinite;
+        }
+
+        @keyframes winning-cell {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 15px rgba(255, 255, 0, 0.8);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 30px rgba(255, 255, 0, 1);
+            }
+        }
+
+        .game-status {
+            font-size: 1.5rem;
+            margin: 2rem 0;
+            min-height: 2rem;
+            font-weight: 600;
+        }
+
+        .status-turn {
+            color: var(--neon-blue);
+        }
+
+        .status-win {
+            color: var(--neon-green);
+            animation: neon-pulse 2s ease-in-out infinite;
+        }
+
+        .status-draw {
+            color: var(--neon-purple);
+        }
+
+        .game-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 24px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: var(--card-bg);
+            border: 2px solid var(--neon-blue);
+            border-radius: 50px;
+            padding: 12px 24px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            min-width: 100px;
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .x-score { color: var(--neon-pink); }
+        .o-score { color: var(--neon-green); }
+        .draw-score { color: var(--neon-purple); }
+
+        @media (max-width: 480px) {
+            .cell {
+                width: 90px;
+                height: 90px;
+                font-size: 2.5rem;
+            }
+
+            .game-title {
+                font-size: 2rem;
+            }
+
+            .back-btn {
+                position: static;
+                margin: 0 auto 2rem;
+                display: block;
+                width: fit-content;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <a href="../index.html" class="back-btn">🏠 Back to Mr.Root's Games</a>
+
+
+    <div class="game-container">
+        <h1 class="game-title">🎯 Epic Tic-Tac-Toe</h1>
+
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">Player X</div>
+                <div class="score-value x-score" id="xScore">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Draws</div>
+                <div class="score-value draw-score" id="drawScore">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Player O</div>
+                <div class="score-value o-score" id="oScore">0</div>
+            </div>
+        </div>
+
+        <div class="game-status" id="gameStatus">Player X's turn</div>
+
+        <div class="game-board" id="gameBoard">
+            
+        </div>
+
+        <div class="game-controls">
+            <button class="control-btn" id="resetBtn">🔄 New Game</button>
+            <button class="control-btn" id="clearScoreBtn">📊 Clear Score</button>
+            <button class="control-btn" id="soundToggleBtn">🔊 Toggle Sound</button>
+        </div>
+    </div>
+
+    <script src="../scripts/utils.js"></script>
+    <script src="../scripts/particle-system.js"></script>
+    <script src="../scripts/games/tic-tac-toe.js"></script>
+
+    <script>
+        
+        const canvas = document.getElementById('particle-canvas');
+        if (canvas) {
+            const particleSystem = new ParticleSystem(canvas);
+            particleSystem.start();
+        }
+    </script>
+</body>
+</html>
