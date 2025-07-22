@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <img src="assets/images/logo.png" class="site-logo" ...>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Mr.Root's Game Paradise - Play Amazing Games Now!</title>
+    <meta name="description" content="Welcome to Mr.Root's Game Paradise! Play amazing browser games instantly - Snake, Tic-tac-toe, Memory games and more with stunning animations.">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+   
+    <canvas id="particle-canvas"></canvas>
+    
+    
+    <div class="container">
+        
+        <header class="header">
+            <div class="logo-container">
+                <h1 class="logo">
+                    <span class="logo-text bounce-in">🎮</span>
+                    <span class="logo-text slide-in">MR.ROOT'S</span>
+                    <span class="logo-text rotate-in">GAME</span>
+                    <span class="logo-text scale-in">PARADISE</span>
+                    <span class="logo-text bounce-in">🎮</span>
+                </h1>
+                <p class="subtitle fade-in-up">Play instantly in your browser - No downloads required!</p>
+                
+                
+                <div class="social-links fade-in-up">
+                    <a href="https://www.linkedin.com/in/pranit-thorat-584a46231" target="_blank" class="social-link linkedin" aria-label="LinkedIn Profile">
+                        <i class="fab fa-linkedin-in"></i>
+                        <span class="social-tooltip">LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/PranitThorat" target="_blank" class="social-link github" aria-label="GitHub Profile">
+                        <i class="fab fa-github"></i>
+                        <span class="social-tooltip">GitHub</span>
+                    </a>
+                    <a href="https://t.me/MrRoot2364" target="_blank" class="social-link telegram" aria-label="Telegram Channel">
+                        <i class="fab fa-telegram-plane"></i>
+                        <span class="social-tooltip">Telegram</span>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        
+        <main class="game-grid">
+            <div class="game-card neon-glow" data-game="tic-tac-toe">
+                <div class="card-content">
+                    <div class="game-icon">🎯</div>
+                    <h3 class="game-title">Epic Tic-Tac-Toe</h3>
+                    <p class="game-description">Classic with explosive animations!</p>
+                    <div class="play-button pulse">
+                        <span>PLAY NOW</span>
+                        <div class="button-particles"></div>
+                    </div>
+                </div>
+                <div class="hover-effect"></div>
+            </div>
+            <div class="game-card holographic" data-game="snake">
+                <div class="card-content">
+                    <div class="game-icon">🐍</div>
+                    <h3 class="game-title">Neon Snake</h3>
+                    <p class="game-description">Glow-tastic snake adventure!</p>
+                    <div class="play-button pulse">
+                        <span>PLAY NOW</span>
+                        <div class="button-particles"></div>
+                    </div>
+                </div>
+                <div class="hover-effect"></div>
+            </div>
+            <div class="game-card electric" data-game="memory">
+                <div class="card-content">
+                    <div class="game-icon">🧠</div>
+                    <h3 class="game-title">Memory Madness</h3>
+                    <p class="game-description">Test your brain with style!</p>
+                    <div class="play-button pulse">
+                        <span>PLAY NOW</span>
+                        <div class="button-particles"></div>
+                    </div>
+                </div>
+                <div class="hover-effect"></div>
+            </div>
+            <div class="game-card rainbow" data-game="bubble-pop">
+                <div class="card-content">
+                    <div class="game-icon">🫧</div>
+                    <h3 class="game-title">Bubble Pop Mania</h3>
+                    <p class="game-description">Pop bubbles with satisfying effects!</p>
+                    <div class="play-button pulse">
+                        <span>PLAY NOW</span>
+                        <div class="button-particles"></div>
+                    </div>
+                </div>
+                <div class="hover-effect"></div>
+            </div>
+            <div class="game-card gradient-shift" data-game="reaction-test">
+                <div class="card-content">
+                    <div class="game-icon">⚡</div>
+                    <h3 class="game-title">Lightning Reflexes</h3>
+                    <p class="game-description">Test your reaction speed!</p>
+                    <div class="play-button pulse">
+                        <span>PLAY NOW</span>
+                        <div class="button-particles"></div>
+                    </div>
+                </div>
+                <div class="hover-effect"></div>
+            </div>
+            <div class="game-card morphing" data-game="color-guess">
+                <div class="card-content">
+                    <div class="game-icon">🌈</div>
+                    <h3 class="game-title">Color Mind Reader</h3>
+                    <p class="game-description">Guess the mysterious colors!</p>
+                    <div class="play-button pulse">
+                        <span>PLAY NOW</span>
+                        <div class="button-particles"></div>
+                    </div>
+                </div>
+                <div class="hover-effect"></div>
+            </div>
+        </main>
+
+        
+        <footer class="footer fade-in-up">
+            <div class="creator-info">
+                <p class="creator-text">Created with ❤️ by <span class="creator-name">Mr.Root</span></p>
+                <p class="creator-subtitle">Building awesome games for everyone to enjoy</p>
+            </div>
+        </footer>
+
+       
+        <div class="floating-elements">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+            <div class="floating-shape shape-4"></div>
+        </div>
+
+        
+        <div class="sound-toggle" id="soundToggle">
+            <span class="sound-icon">🔊</span>
+        </div>
+    </div>
+
+    
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <img src="assets/images/logo.png" alt="Mr.Root's Game Paradise Logo" class="loading-logo" />
+            <div class="loading-spinner"></div>
+            <p>Loading Mr.Root's awesome games...</p>
+        </div>
+    </div>
+
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/particle-system.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
