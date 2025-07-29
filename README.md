@@ -42,7 +42,7 @@ RootArcade is deployed and hosted on **Netlify** for lightning-fast, hassle-free
 
 ---
 
-## 🎮 How To Play
+## 🎮 How To Play 
 
 - **Open the homepage**, pick any game card to start playing.
 - Use keys **1–6** to quickly switch between games.
