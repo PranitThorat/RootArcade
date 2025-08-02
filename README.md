@@ -2,7 +2,10 @@
 
 Welcome to **RootArcade** — Mr.Root’s vibrant, neon-infused browser game portal! Dive into an engaging world of classic and creative games packed with smooth animations, interactive particle effects, and dynamic sound — all playable instantly with no downloads required.
 
-👉 **Live :** [mr-root-game-paradise.netlify.app](https://mr-root-game-paradise.netlify.app/)
+👉 **Live :** [mr-root-game-paradise.netlify.app](https://mr-root-game-paradise.netlify.app/)  
+  
+   
+   [![Netlify Status](https://api.netlify.com/api/v1/badges/8017246e-fdd4-411b-b458-f03f514ee4e9/deploy-status)](https://app.netlify.com/projects/mr-root-game-paradise/deploys)
 
 ---
 
